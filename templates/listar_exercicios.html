@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Exercicios</title>
+</head>
+<body>
+    <h1>Bem-Vindo ao Train-Train!</h1>
+    <p>Exercícios disponíveis:</p>
+    <!--Pra cada exercicio em exercicios ele exibe o nome-->
+
+    <form method="post">
+    <ul>
+
+        {%for ex in exercicios%}
+            <li>
+                <input type="checkbox" id="check_{{ ex.id }}" name="ex_id" value="{{ ex.id }}">
+                <label for="check_{{ ex.id }}">{{ ex.name }}</label>
+                <input type="number" name="series_{{ ex.id }}" placeholder="Número de Séries">
+                <input type="number" name="carga_{{ ex.id }}" placeholder="Carga (kg)"><br>
+            </li>
+        {%endfor%}
+
+        <button type="submit">Criar Treino</button>
+
+
+    </ul>
+    </form>
+
+    <a href="/criar-exercicio">Sem exercícios disponíveis? CRIE UM!</a>
+</body>
+</html>

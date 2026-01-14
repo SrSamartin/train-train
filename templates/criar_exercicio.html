@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Exercício</title>
+</head>
+<body>
+    <h1>Bem-Vindo ao Train-Train!</h1>
+    <form action="/criar-exercicio" method="post">
+        <input type="text" name="name" placeholder="Nome do Exercício">
+        <button type="submit">Criar Exercício</button>
+
+        <br>
+    </form>
+    <ul>
+        {%for ex in exercicio%}
+        
+            <li>{{ex.name}}</li>
+            <form action="/deletar-exercicio" method="post">
+                <input type="hidden" name="ex_id" value="{{ex.id}}">
+                <button type="submit">Deletar Exercício</button>
+            </form>  
+        {%endfor%}
+    </ul>
+        <br>
+        <a href="/listar-exercicios">RETORNAR À LISTA</a>
+</body>
+</html>

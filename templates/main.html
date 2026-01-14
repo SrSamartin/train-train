@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train-Train</title>
+</head>
+<body>
+    <h1>Bem-vindo ao Train-Train!</h1>
+    <p>O treino de hoje é:</p>
+    <form action="/concluir-treino" method="post">
+        <ul>
+            {%for ex in treinos%}
+                <li>
+                        <input type="checkbox" id="check_{{ ex.id }}" name="ex_id" value="{{ ex.id }}" class="check-ex">
+                        <label for="check_{{ ex.id }}">{{ ex.exercicio.name }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+        <br>
+        <button id="btn-concluir" type="submit" >Concluir Treino</button>
+    </form>
+
+    <!--FUNÇÃO PARA QUE O BOTÃO DE CONCLUSÃO SÓ FIQUE DISPONIVEL CASO TODOS OS EXERCICIOS SEJAM CUMPRIDOS-->
+    <script>
+        // 1. EVENTO DE CARREGAMENTO (DOMContentLoaded)
+        // Esse 'escritor' garante que o JS só comece a procurar elementos na tela
+        // DEPOIS que todo o HTML foi lido pelo navegador. 
+        // Sem isso, o JS poderia tentar pegar o botão antes dele existir.
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // 2. CAPTURA DE ELEMENTOS (DOM Selection)
+            // Selecionamos o botão pelo ID (#) e os checkboxes pela CLASSE (.)
+            const btn = document.getElementById('btn-concluir');
+            const checkboxes = document.querySelectorAll('.check-ex');
+
+            // 3. A LÓGICA DE VALIDAÇÃO (A Função)
+            function validarBotao() {
+                
+                // a) Proteção de lista vazia: checkboxes.length > 0
+                // Garante que a lógica só funcione se existirem exercícios na tela.
+                
+                // b) O Método .every():
+                // Ele transforma a NodeList em um Array e percorre cada item (c).
+                // Retorna TRUE apenas se a propriedade 'checked' de TODOS for true.
+                const todosMarcados = checkboxes.length > 0 && 
+                                    Array.from(checkboxes).every(c => c.checked);
+                
+                // c) Inversão de Lógica (!):
+                // O atributo 'disabled' precisa ser VERDADEIRO para travar o botão.
+                // Se todosMarcados for TRUE, btn.disabled recebe FALSE (libera o botão).
+                btn.disabled = !todosMarcados;
+            }
+
+            // 4. O MONITORAMENTO (Event Listeners)
+            // O JS 'atribui um vigia' para cada checkbox.
+            // O evento 'change' detecta tanto o ato de marcar quanto o de desmarcar.
+            checkboxes.forEach(c => {
+                c.addEventListener('change', validarBotao);
+            });
+
+            // 5. ESTADO INICIAL
+            // Executamos a função uma vez assim que a página abre.
+            // Isso garante que o botão comece travado se houver algo desmarcado.
+            validarBotao();
+        });
+    </script>
+    <br>
+    <a href="/listar-exercicios">Sem exercícios pro treino? clique aqui!</a>
+</body>
+</html>
